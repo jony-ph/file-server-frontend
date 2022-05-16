@@ -1,0 +1,27 @@
+.banner {
+    background-image: url('../images/banner-blue.jpg');
+    background-position: center center;
+    background-size: cover;
+}
+
+.lcontainer {
+    width: 75%;
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    
+    transition: 1s ease;
+}
+
+.icon:hover {
+    transform: rotate(135deg);
+}
+
+@media screen and (max-width: 576px) {
+    .lcontainer {
+        width: 100%;
+    }
+}
