@@ -5,15 +5,15 @@ const LoginForm = () => {
   return ( 
 
     <Form className="my-5 mx-lg-5 mx-md-3 mx-sm-0">
-      <Form.Group className="mb-3">
-        <Form.Label>Email</Form.Label>
-        <Form.Control type="email" placeholder="Email" />
-      </Form.Group>
+      <Form.Floating className="mb-3">
+        <Form.Control type="email" id="email" placeholder="name@example.com" />
+        <label htmlFor="email">Correo electrónico</label>
+      </Form.Floating>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Contraseña</Form.Label>
-        <Form.Control type="password" placeholder="Contraseña" />
-      </Form.Group>
+      <Form.Floating className="mb-3">
+        <Form.Control type="password" id="password" placeholder="********" />
+        <label htmlFor="password">Contraseña</label>
+      </Form.Floating>
       
       <Button variant="outline-dark" size="lg" type="submit" className="w-100 my-4">
         Iniciar sesión

@@ -1,11 +1,20 @@
+import { useEffect } from 'react';
 import LoginForm from '../components/LoginForm';
 import LoginInfoIcon from '../components/LoginInfoIcon';
 import styles from '../styles/login.module.css';
 
-const Login = () => {
-  return (
+const Login = ({ handle }) => {
 
-    <div className="d-flex vh-100 justify-content-center align-items-center">
+  useEffect( () => {
+    handle(false);
+
+    return() => {
+      handle(true);
+    }
+  }, [handle]);
+
+  return (
+    <div className="d-flex vh-100 justify-content-center align-items-center text-dark">
 
       <div className={`container rounded shadow ${styles.lcontainer}`}>
         <div className="row align-items-stretch">

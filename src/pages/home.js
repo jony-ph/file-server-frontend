@@ -1,12 +1,9 @@
-import NavigationBar from '../components/Navbar';
-
 const Home = () => {
-    return (
-        <>
-        <NavigationBar />
-        <div>Home</div> 
-        </>
-    );
+  return (
+    <div className="main container">
+      <h2 className="text-center pt-5">Home</h2>
+    </div> 
+  );
 }
  
 export default Home;

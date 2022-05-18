@@ -1,0 +1,17 @@
+.link {
+    color: #8c9397;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #d5dce0;
+}
+
+.active {
+    color: aliceblue;
+    text-decoration: none;
+}
+
+.active:hover {
+    color: aliceblue;
+}
