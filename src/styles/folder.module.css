@@ -1,0 +1,11 @@
+.folder {
+    width: 6.25rem;
+    height: 6.25rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .folder {
+        width: 5rem;
+        height: 5rem;
+    }
+}
