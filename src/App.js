@@ -9,23 +9,24 @@ import Settings from './pages/settings';
 import NavigationBar from './components/Navbar';
 
 import './App.css';
+import Store from './store/store';
 
 function App() {
 
   const [navbarFlag, setNavbarFlag] = useState(true);
 
   return (
-    <div className="App">
+    <Store>
       <BrowserRouter>
         <NavigationBar navbarFlag={navbarFlag} />
         <Routes>
           <Route path='/login' element={ <Login handle={setNavbarFlag} /> } />
-          <Route path='/files' element={ <Files /> } />
+          <Route path='/files/*' element={ <Files /> } />
           <Route path='/settings' element={ <Settings /> } />
           <Route path='/' element={ <Home /> } />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Store>
   );
 }
 
