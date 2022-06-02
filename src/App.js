@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import Home from './pages/home';
@@ -16,17 +16,19 @@ function App() {
   const [navbarFlag, setNavbarFlag] = useState(true);
 
   return (
-    <Store>
       <BrowserRouter>
         <NavigationBar navbarFlag={navbarFlag} />
-        <Routes>
-          <Route path='/login' element={ <Login handle={setNavbarFlag} /> } />
-          <Route path='/files/*' element={ <Files /> } />
-          <Route path='/settings' element={ <Settings /> } />
-          <Route path='/' element={ <Home /> } />
-        </Routes>
+        <Store>
+          <Routes>
+            <Route path='/login' element={ <Login handle={setNavbarFlag} /> } />
+            <Route path='/files/*' element={ <Files /> } />
+            <Route path='/settings' element={ <Settings /> } />
+            <Route path='/preview/*' />
+            <Route path='/' element={ <Home /> } />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Store>
       </BrowserRouter>
-    </Store>
   );
 }
 
