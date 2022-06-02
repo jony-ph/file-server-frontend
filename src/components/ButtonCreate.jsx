@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { BsFolderPlus } from "react-icons/bs";
+import { BsFolderPlus } from 'react-icons/bs';
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { Stack } from 'react-bootstrap';
+import Stack  from 'react-bootstrap/Stack';
 import { useAppContext } from '../store/store';
 
 const ButtonCreate = () => {
@@ -16,9 +16,8 @@ const ButtonCreate = () => {
 
   const { pathname } = useLocation();
 
-
   // Importando contexto
-  const store = useAppContext();
+  const { items, setItems } = useAppContext();
 
   function handleShow() {
     setShow(!show);
@@ -28,17 +27,34 @@ const ButtonCreate = () => {
     setName(e.target.value);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
+
     e.preventDefault();
 
     const path = pathname + '/' + name;
-
-    const newFolder = {
-      id: crypto.randomUUID(),
-      name: path
+    const url = "http://192.168.0.6:4000/create";
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        path
+      })
     };
 
-    store.createItem(newFolder);
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if(data.message === "Folder already exist")
+      return;
+
+    const item = {path, isFile: false};
+    const temp = [...items];
+
+    temp.push(item);
+    setItems(temp);
+
   }
 
   return ( 
@@ -59,6 +75,7 @@ const ButtonCreate = () => {
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
+                name="path"
                 placeholder="Nombre de la carpeta"
                 onChange={handleChange}
                 autoFocus
