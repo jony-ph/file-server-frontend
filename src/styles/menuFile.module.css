@@ -1,0 +1,11 @@
+.toggleMenu{
+  background-color: #ffffff00;
+  color: #ffffff;
+
+  border: none;
+  padding: 0;
+}
+
+.menu {
+  z-index: 1031;
+}
