@@ -20,37 +20,39 @@ function ButtonUpload() {
 		setShow(!show);
 	};
 
+	const upload = async (file) => {
+		const dataForm = new FormData();
+		dataForm.append("path", pathname);
+		dataForm.append("file", file);
+
+		const url = "http://localhost:4000/upload";
+		const options = {
+			method: "POST",
+			body: dataForm,
+		};
+
+		const response = await fetch(url, options);
+		const data = await response.json();
+
+		return data;
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const temp = [...items];
+		const totalFiles = uploadFiles.length;
 
-		const upload = async (file) => {
-			const dataForm = new FormData();
-			dataForm.append("path", pathname);
-			dataForm.append("file", file);
-
-			const url = "http://localhost:4000/upload";
-			const options = {
-				method: "POST",
-				body: dataForm,
-			};
-
-			const response = await fetch(url, options);
-			const data = await response.json();
-
-			return data;
-		};
-
-		uploadFiles.forEach((file) => {
-			const response = upload(file);
-			const path = `${pathname}/${file.name}`;
+		for (let i = 0; i < totalFiles; i += 1) {
+			const response = upload(uploadFiles[i]);
+			const path = `${pathname}/${uploadFiles[i].name}`;
 			const item = { path, isFile: true };
 
 			if (response.message === "File already exist") return;
 
 			temp.push(item);
-		});
+		}
+
 		setItems(await Promise.all(temp));
 	};
 
