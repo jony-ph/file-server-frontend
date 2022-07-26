@@ -13,6 +13,7 @@
     "react-icons": "4.3.1",
     "react-router-dom": "6.3.0",
     "react-scripts": "5.0.1",
+    "uuidv4": "^6.2.13",
     "web-vitals": "2.1.4"
   },
   "scripts": {
@@ -44,14 +45,14 @@
   "devDependencies": {
     "eslint": "8.20.0",
     "eslint-config-airbnb": "19.0.4",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsx-a11y": "6.6.1",
     "eslint-plugin-react": "7.30.1",
     "eslint-plugin-react-hooks": "4.6.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
+    "husky": "8.0.1",
+    "lint-staged": "13.0.3",
+    "prettier": "2.7.1"
   },
   "overrides": {
     "autoprefixer": "10.4.5"

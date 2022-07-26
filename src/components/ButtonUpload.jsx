@@ -25,7 +25,7 @@ function ButtonUpload() {
 		dataForm.append("path", pathname);
 		dataForm.append("file", file);
 
-		const url = "http://localhost:4000/upload";
+		const url = "http://https://file-server-backend.herokuapp.com:4000/upload";
 		const options = {
 			method: "POST",
 			body: dataForm,
