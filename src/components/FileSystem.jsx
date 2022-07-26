@@ -1,24 +1,23 @@
-import ButtonBack from "../components/ButtonBack";
-import Searcher from "../components/Searcher";
-import ButtonCreate from "../components/ButtonCreate";
-import ButtonUpload from "../components/ButtonUpload";
-
 import Stack from "react-bootstrap/Stack";
-import ButtonOrder from "../components/ButtonOrder";
+import ButtonBack from "./ButtonBack";
+import Searcher from "./Searcher";
+import ButtonCreate from "./ButtonCreate";
+import ButtonUpload from "./ButtonUpload";
 
+import ButtonOrder from "./ButtonOrder";
 
-const FileSystem = () => {
-  return ( 
-    <div>
-      <ButtonBack />
-      <Searcher />
-      <Stack direction="horizontal">
-        <ButtonUpload />
-        <ButtonCreate />
-        <ButtonOrder className="ms-auto" />
-      </Stack> 
-    </div>
-  );
+function FileSystem() {
+	return (
+		<div>
+			<ButtonBack />
+			<Searcher />
+			<Stack direction="horizontal">
+				<ButtonUpload />
+				<ButtonCreate />
+				<ButtonOrder className="ms-auto" />
+			</Stack>
+		</div>
+	);
 }
- 
+
 export default FileSystem;

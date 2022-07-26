@@ -1,32 +1,17 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from "react";
 
 // Creando contexto global
 const AppContext = createContext({
-  items: []
+  items: [],
 });
 
-const Store = ({ children }) => {
-
+function Store({ children }) {
   // Definiendo objeto del contexto creado
   const [items, setItems] = useState([]);
 
+  const context = useMemo(() => ({ items, setItems }));
 
-  // function updateItem(item) {
-  //   console.log(items)
-  //   const index = items.findIndex( index => index.id === item.id );
-  //   const temp = [...items];
-
-  //   temp[index] = { ...item };
-  // }
-
-  return ( 
-      <AppContext.Provider value={{
-        items,
-        setItems
-      }}>
-        {children}
-      </AppContext.Provider>
-  );
+  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 }
 
 export function useAppContext() {

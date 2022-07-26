@@ -1,160 +1,151 @@
-import { forwardRef, useState } from 'react';
-import { useAppContext } from '../store/store';
+import { forwardRef, useState } from "react";
 
-import Dropdown from 'react-bootstrap/Dropdown';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Stack from 'react-bootstrap/Stack';
-import Button from 'react-bootstrap/Button';
+import Dropdown from "react-bootstrap/Dropdown";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
+import Button from "react-bootstrap/Button";
 
-import { BiDotsVerticalRounded } from 'react-icons/bi';
-import { MdFileDownload } from 'react-icons/md';
-import { AiFillEdit } from 'react-icons/ai';
-import { RiDeleteBinFill } from 'react-icons/ri';
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdFileDownload } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
+import { RiDeleteBinFill } from "react-icons/ri";
+import { useAppContext } from "../store/store";
 
-import styles from '../styles/menuFile.module.css';
+import styles from "../styles/menuFile.module.css";
 
-const FileMenu = ({ path, name, item }) => {
+const CustomToggle = forwardRef(({ children, onClick }, ref) => (
+	<button
+		type="button"
+		className={styles.toggleMenu}
+		ref={ref}
+		onClick={(e) => {
+			e.preventDefault();
+			onClick(e);
+		}}
+	>
+		{children}
+		<BiDotsVerticalRounded />
+	</button>
+));
 
-  const downloadURL = `http://192.168.0.6:4000/download${path}`;
+function FileMenu({ path, name, item }) {
+	const downloadURL = `http://localhost:4000/download${path}`;
 
-  const [show, setShow] = useState();
-  const [newName, setNewName] = useState(name);
+	const [show, setShow] = useState();
+	const [newName, setNewName] = useState(name);
 
-  const { items, setItems } = useAppContext();
+	const { items, setItems } = useAppContext();
 
-  const CustomToggle = forwardRef(({ children, onClick }, ref) => (
-    <button
-      className={styles.toggleMenu}
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-      <BiDotsVerticalRounded />
-    </button>
-  ));
+	const handleFormShow = () => {
+		setShow(!show);
+	};
 
-  const handleFormShow = () => {
-    setShow(!show);
-  };
+	const handleChange = (e) => {
+		setNewName(e.target.value);
+	};
 
-  const handleChange = (e) => {
-    setNewName(e.target.value);
-  };
+	const updateName = () => {
+		const index = items.findIndex((i) => i.path === item.path);
+		const temp = [...items];
 
-  const handleSubmit = async (e) => {
+		const pathname = path.split("/").slice(0, -1).join("/");
+		temp[index].path = `${pathname}/${newName}`;
 
-    e.preventDefault();
+		setItems(temp);
+	};
 
-    const url = `http://192.168.0.6:4000/rename${path}`;
-    const options = {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        newName
-      })
-    }
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-    const response = await fetch(url, options);
-    const data = await response.json();
+		const url = `http://localhost:4000/rename${path}`;
+		const options = {
+			method: "PUT",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify({
+				newName,
+			}),
+		};
 
-    console.log(data);
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    updateName();
+		if (data.message === "Renamed file") updateName();
+	};
 
-  };
+	const deleteItem = () => {
+		const temp = items.filter((i) => i.path !== item.path);
+		setItems(temp);
+	};
 
-  const updateName = () => {
-    const index = items.findIndex( i => i.path === item.path);
-    const temp = [...items];
+	const handleClick = async () => {
+		const option = window.confirm("Confirma la eliminación?");
 
-    const pathname = path.split('/').slice(0, -1).join('/');
-    temp[index].path = pathname + "/" + newName;
+		if (!option) return;
 
-    setItems(temp);
-  };
+		const url = `http://localhost:4000/delete${path}`;
+		const options = {
+			method: "DELETE",
+		};
 
-  const handleClick = async () => {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
+		if (data.message === "Deleted file") deleteItem();
+	};
 
-    const option = window.confirm("Confirma la eliminación?");
+	return (
+		<>
+			<Dropdown align="end">
+				<Dropdown.Toggle as={CustomToggle} />
 
-    if (!option)
-      return;
-    
-    const url = `http://192.168.0.6:4000/delete${path}`;
-    const options = {
-      method: 'DELETE'
-    }
+				<Dropdown.Menu className={styles.menu}>
+					<Dropdown.Item href={downloadURL}>
+						<MdFileDownload /> Descargar
+					</Dropdown.Item>
+					<Dropdown.Item onClick={handleFormShow}>
+						<AiFillEdit /> Renombrar
+					</Dropdown.Item>
+					<Dropdown.Item onClick={handleClick}>
+						<RiDeleteBinFill /> Eliminar
+					</Dropdown.Item>
+				</Dropdown.Menu>
+			</Dropdown>
 
-    const response = await fetch(url, options);
-    const data = await response.json();
+			<Modal show={show} onHide={handleFormShow} className="text-dark" centered>
+				<Modal.Body>
+					<Form onSubmit={handleSubmit}>
+						<Form.Group className="mb-3">
+							<Form.Label>Renombrar</Form.Label>
+							<Form.Control
+								type="text"
+								name="newName"
+								value={newName}
+								onChange={handleChange}
+								placeholder="Nuevo nombre"
+								multiple
+							/>
+						</Form.Group>
 
-    console.log(data);
-
-    deleteItem();
-
-  };
-
-  const deleteItem = () => {
-    const temp = items.filter( i => i.path !== item.path);
-    setItems(temp);
-  };
-
-  return ( 
-    <>
-      <Dropdown align="end">
-        <Dropdown.Toggle as={CustomToggle}>
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu className={styles.menu}>
-          <Dropdown.Item href={downloadURL}>
-            <MdFileDownload /> Descargar 
-          </Dropdown.Item>
-          <Dropdown.Item onClick={handleFormShow}>
-            <AiFillEdit /> Renombrar
-          </Dropdown.Item>
-          <Dropdown.Item onClick={handleClick}>
-            <RiDeleteBinFill /> Eliminar
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-
-      <Modal show={show} onHide={handleFormShow} className="text-dark" centered>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Renombrar</Form.Label>
-            <Form.Control
-              type="text"
-              name="newName"
-              value={newName}
-              onChange={handleChange}
-              placeholder="Nuevo nombre"
-              multiple
-            />
-          </Form.Group>
-
-          <Stack direction="horizontal" gap={2}>
-            <Button variant="secondary" onClick={handleFormShow} className="ms-auto">
-              Cancelar
-            </Button>
-            <Button variant="primary" type="submit" onClick={handleFormShow}>
-              Guardar
-            </Button>
-          </Stack>
-
-        </Form>
-      </Modal.Body>
-      </Modal>
-    </>
-  );
+						<Stack direction="horizontal" gap={2}>
+							<Button
+								variant="secondary"
+								onClick={handleFormShow}
+								className="ms-auto"
+							>
+								Cancelar
+							</Button>
+							<Button variant="primary" type="submit" onClick={handleFormShow}>
+								Guardar
+							</Button>
+						</Stack>
+					</Form>
+				</Modal.Body>
+			</Modal>
+		</>
+	);
 }
- 
+
 export default FileMenu;

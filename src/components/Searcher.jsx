@@ -4,19 +4,19 @@ import Button from "react-bootstrap/Button";
 
 import { BsSearch } from "react-icons/bs";
 
-const Searcher = () => {
-  return ( 
-    <InputGroup className="my-5">
-      <FormControl
-        placeholder="Carpeta o archivo"
-        aria-label="Carpeta o archivo"
-        aria-describedby="basic-addon2"
-      />
-      <Button variant="secondary" id="button-addon2">
-        <BsSearch />
-      </Button>
-    </InputGroup>
-  );
+function Searcher() {
+	return (
+		<InputGroup className="my-5">
+			<FormControl
+				placeholder="Carpeta o archivo"
+				aria-label="Carpeta o archivo"
+				aria-describedby="basic-addon2"
+			/>
+			<Button variant="secondary" id="button-addon2">
+				<BsSearch />
+			</Button>
+		</InputGroup>
+	);
 }
- 
+
 export default Searcher;
