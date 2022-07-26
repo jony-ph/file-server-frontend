@@ -30,7 +30,7 @@ function ButtonCreate() {
 		e.preventDefault();
 
 		const path = `${pathname}/${name}`;
-		const url = "https://file-server-backend.herokuapp.com:4000/create";
+		const url = "https://file-server-backend.herokuapp.com/create";
 		const options = {
 			method: "POST",
 			headers: {

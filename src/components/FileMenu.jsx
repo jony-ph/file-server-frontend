@@ -30,7 +30,7 @@ const CustomToggle = forwardRef(({ children, onClick }, ref) => (
 ));
 
 function FileMenu({ path, name, item }) {
-	const downloadURL = `https://file-server-backend.herokuapp.com:4000/download${path}`;
+	const downloadURL = `https://file-server-backend.herokuapp.com/download${path}`;
 
 	const [show, setShow] = useState();
 	const [newName, setNewName] = useState(name);
@@ -58,7 +58,7 @@ function FileMenu({ path, name, item }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const url = `https://file-server-backend.herokuapp.com:4000/rename${path}`;
+		const url = `https://file-server-backend.herokuapp.com/rename${path}`;
 		const options = {
 			method: "PUT",
 			headers: {
@@ -85,7 +85,7 @@ function FileMenu({ path, name, item }) {
 
 		// if (!option) return;
 
-		const url = `https://file-server-backend.herokuapp.com:4000/delete${path}`;
+		const url = `https://file-server-backend.herokuapp.com/delete${path}`;
 		const options = {
 			method: "DELETE",
 		};
