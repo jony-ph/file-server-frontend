@@ -9,7 +9,7 @@ const useFiles = (pathname) => {
 	useEffect(() => {
 		async function getItems() {
 			try {
-				const url = `http://localhost:4000${pathname}`;
+				const url = `https://file-server-backend.herokuapp.com${pathname}`;
 				const response = await fetch(url);
 				const data = await response.json();
 
