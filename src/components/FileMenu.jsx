@@ -81,9 +81,9 @@ function FileMenu({ path, name, item }) {
 	};
 
 	const handleClick = async () => {
-		const option = window.confirm("Confirma la eliminación?");
+		// const option = window.confirm("Confirma la eliminación?");
 
-		if (!option) return;
+		// if (!option) return;
 
 		const url = `http://localhost:4000/delete${path}`;
 		const options = {
